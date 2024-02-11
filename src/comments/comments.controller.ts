@@ -13,11 +13,14 @@ import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('comments')
+@ApiBearerAuth()
 @UseGuards(AuthGuard)
 @Controller('cards/:cardId/comments')
 export class CommentsController {
-  constructor(private readonly commentsService: CommentsService) {}
+  constructor(private readonly commentsService: CommentsService) { }
 
   @Post()
   create(
@@ -29,16 +32,17 @@ export class CommentsController {
   }
 
   @Get()
-  findAll(@Param('cardId') cardId: string) {
-    return this.commentsService.findAll(cardId);
+  findAll(@Request() { userId }, @Param('cardId') cardId: string) {
+    return this.commentsService.findAll(cardId, userId);
   }
 
   @Get(':commentId')
   findOne(
+    @Request() { userId },
     @Param('cardId') cardId: string,
     @Param('commentId') commentId: string,
   ) {
-    return this.commentsService.findOne(commentId, cardId);
+    return this.commentsService.findOne(commentId, cardId, userId);
   }
 
   @Patch(':commentId')

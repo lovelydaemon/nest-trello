@@ -5,7 +5,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class CardsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async create(createCardDto: CreateCardDto, columnId: string, userId: string) {
     return await this.prisma.card.create({
@@ -18,19 +18,21 @@ export class CardsService {
     });
   }
 
-  async findAll(columnId: string) {
+  async findAll(columnId: string, userId: string) {
     return await this.prisma.card.findMany({
       where: {
         columnId,
+        userId,
       },
     });
   }
 
-  async findOne(cardId: string, columnId: string) {
+  async findOne(cardId: string, columnId: string, userId: string) {
     const card = await this.prisma.card.findFirst({
       where: {
         id: cardId,
         columnId,
+        userId,
       },
     });
     return card ?? null;

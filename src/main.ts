@@ -14,6 +14,7 @@ async function bootstrap() {
     .setTitle('Trello')
     .setDescription('Trello API')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

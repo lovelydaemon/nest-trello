@@ -5,7 +5,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class CommentsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async create(
     createCommentDto: CreateCommentDto,
@@ -21,19 +21,21 @@ export class CommentsService {
     });
   }
 
-  async findAll(cardId: string) {
+  async findAll(cardId: string, userId: string) {
     return await this.prisma.comment.findMany({
       where: {
         cardId,
+        userId,
       },
     });
   }
 
-  async findOne(commentId: string, cardId: string) {
+  async findOne(commentId: string, cardId: string, userId: string) {
     const comment = await this.prisma.comment.findFirst({
       where: {
         id: commentId,
         cardId,
+        userId,
       },
     });
     return comment ?? null;

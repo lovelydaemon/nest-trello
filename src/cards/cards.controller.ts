@@ -13,11 +13,14 @@ import { CardsService } from './cards.service';
 import { CreateCardDto } from './dto/create-card.dto';
 import { UpdateCardDto } from './dto/update-card.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('cards')
+@ApiBearerAuth()
 @UseGuards(AuthGuard)
 @Controller('columns/:columnId/cards')
 export class CardsController {
-  constructor(private readonly cardsService: CardsService) {}
+  constructor(private readonly cardsService: CardsService) { }
 
   @Post()
   create(
@@ -29,16 +32,17 @@ export class CardsController {
   }
 
   @Get()
-  findAll(@Param('columnId') columnId: string) {
-    return this.cardsService.findAll(columnId);
+  findAll(@Request() { userId }, @Param('columnId') columnId: string) {
+    return this.cardsService.findAll(columnId, userId);
   }
 
   @Get(':cardId')
   findOne(
+    @Request() { userId },
     @Param('columnId') columnId: string,
     @Param('cardId') cardId: string,
   ) {
-    return this.cardsService.findOne(cardId, columnId);
+    return this.cardsService.findOne(cardId, columnId, userId);
   }
 
   @Patch(':cardId')
