@@ -6,4 +6,4 @@ import { ColumnsController } from './columns.controller';
   controllers: [ColumnsController],
   providers: [ColumnsService],
 })
-export class ColumnsModule { }
+export class ColumnsModule {}

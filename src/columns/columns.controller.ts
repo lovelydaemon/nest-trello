@@ -20,7 +20,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 @UseGuards(AuthGuard)
 @Controller('columns')
 export class ColumnsController {
-  constructor(private readonly columnsService: ColumnsService) { }
+  constructor(private readonly columnsService: ColumnsService) {}
 
   @Post()
   create(@Request() { userId }, @Body() createColumnDto: CreateColumnDto) {

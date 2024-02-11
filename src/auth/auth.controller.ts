@@ -11,7 +11,7 @@ export class AuthController {
   constructor(
     private authService: AuthService,
     private usersService: UsersService,
-  ) { }
+  ) {}
 
   @HttpCode(HttpStatus.OK)
   @Post('signin')
